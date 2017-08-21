@@ -2,13 +2,13 @@ RUN(() => {
 	
 	const SEP = require('path').sep;
 	
-	let loadUSONs = (path, addItem) => {
+	let loadUSONs = (path) => {
 		
 		EACH(FIND_FOLDER_NAMES({
 			path : path,
 			isSync : true
 		}), (folderName) => {
-			loadFiles(path + SEP + folderName, folder.addItem);
+			loadUSONs(path + SEP + folderName);
 		});
 		
 		EACH(FIND_FILE_NAMES({
@@ -16,20 +16,15 @@ RUN(() => {
 			isSync : true
 		}), (fileName) => {
 			
-			let extname = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
-			
-			if (extname === 'uson') {
-				
-				READ_FILE({
-					path : path + SEP + fileName,
-					isSync : true
-				}, (buffer) => {
-					
-					Rainy.ConvertDataToNode(eval('(' + buffer.toString() + ')'));
-				});
+			if (fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase() === 'js') {
+				require(path + SEP + fileName);
 			}
 		});
 	};
 	
-	loadUSONs('usons');
+	loadUSONs('./Samples' + SEP + 'Platformer');
+	
+	RainyNode({
+		id : 'main'
+	}).appendTo(SkyEngine.Screen);
 });
