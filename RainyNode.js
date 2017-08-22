@@ -21,6 +21,12 @@ global.RainyNode = METHOD({
 			NodeClass = SkyEngine.Node;
 		}
 		
-		return NodeClass(data);
+		let node = NodeClass(data);
+		
+		if (data.on !== undefined && data.on.create !== undefined) {
+			data.on.create();
+		}
+		
+		return node;
 	}
 });

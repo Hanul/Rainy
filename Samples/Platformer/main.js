@@ -1,7 +1,7 @@
 Rainy({
 	id : 'main',
 	on : {
-		show : () => {
+		create : () => {
 			console.log('test');
 		}
 	}
