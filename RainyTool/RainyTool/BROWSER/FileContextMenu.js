@@ -17,7 +17,7 @@ RainyTool.FileContextMenu = CLASS({
 			on : {
 				tap : () => {
 					
-					SkyDesktop.Prompt('파일명을 입력해주시기 바랍니다.', (filename) => {
+					SkyDesktop.Prompt('파일명을 입력해주시기 바랍니다.', (fileName) => {
 						console.log(c);
 						
 						/*RainyTool.IDE.load(path, (path, content) => {
@@ -25,10 +25,10 @@ RainyTool.FileContextMenu = CLASS({
 							let i = path.lastIndexOf('/');
 							let j = path.lastIndexOf('\\');
 							
-							let filename = path.substring((j === -1 || i > j ? i : j) + 1);
+							let fileName = path.substring((j === -1 || i > j ? i : j) + 1);
 							
-							let editor = openEditor(getEditor(filename.substring(filename.lastIndexOf('.') + 1).toLowerCase())({
-								title : filename,
+							let editor = openEditor(getEditor(fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase())({
+								title : fileName,
 								path : path,
 								content : content
 							}));

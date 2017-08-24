@@ -1,5 +1,7 @@
 # Rainy
-[USON](https://github.com/Hanul/USON) 문서만 작성하면 [SkyEngine](https://github.com/Hanul/SkyEngine)을 기반으로 게임이 동작하는 그런 엔진
+문서 기반 게임 엔진
+
+[UPPERCASE-CORE](https://github.com/Hanul/UPPERCASE/blob/master/DOC/GUIDE/UPPERCASE-CORE.md)와 [SkyEngine](https://github.com/Hanul/SkyEngine)을 내장하고 있습니다.
 
 ## 라이센스
 [MIT](LICENSE)

@@ -22,18 +22,18 @@ RUN(() => {
 					style : {
 						padding : 10
 					},
-					c : ['좋은 에디터 ', A({
+					c : A({
 						style : {
 							color : '#59A7FD',
 							textDecoration : 'underline'
 						},
-						c : '다솜 에디터',
+						c : 'Rainy',
 						on : {
 							tap : () => {
-								shell.openExternal('https://github.com/Hanul/RainyTool');
+								shell.openExternal('https://github.com/Hanul/Rainy');
 							}
 						}
-					})]
+					})
 				})
 			}));
 		},
@@ -131,7 +131,7 @@ RUN(() => {
 								key : path + SEP + fileName,
 								item : RainyTool.File({
 									path : path + SEP + fileName,
-									title : fileName
+									title : fileName.lastIndexOf('.') === -1 ? fileName : fileName.substring(0, fileName.lastIndexOf('.'))
 								})
 							});
 						}
@@ -200,7 +200,7 @@ RUN(() => {
 					key : path + SEP + fileName,
 					item : RainyTool.File({
 						path : path + SEP + fileName,
-						title : fileName
+						title : fileName.lastIndexOf('.') === -1 ? fileName : fileName.substring(0, fileName.lastIndexOf('.'))
 					})
 				});
 			});
@@ -220,150 +220,6 @@ RUN(() => {
 		
 		workspaceFileWatcher = createFileWatcher(workspacePath, RainyTool.IDE.addItem, RainyTool.IDE.removeItem);
 	};
-	
-	RainyTool.IDE.addToolbarButton(SkyDesktop.ToolbarButton({
-		icon : IMG({
-			src : RainyTool.R('icon/command.png')
-		}),
-		title : '저장 시 명령',
-		on : {
-			tap : () => {
-				
-				let list;
-				
-				let addForm = (extname, command) => {
-					
-					let form;
-					
-					list.append(form = FORM({
-						style : {
-							marginBottom : 8
-						},
-						c : TABLE({
-							c : TR({
-								c : [TD({
-									style : {
-										width : 70
-									},
-									c : [UUI.FULL_INPUT({
-										style : {
-											width : 50,
-											border : '1px solid #999',
-											borderRadius : 4
-										},
-										name : 'extname',
-										value : extname,
-										placeholder : '확장자'
-									}), UUI.BUTTON_H({
-										style : {
-											marginLeft : 7,
-											marginTop : 7
-										},
-										icon : FontAwesome.GetIcon('times'),
-										spacing : 5,
-										title : '삭제',
-										on : {
-											tap : () => {
-												form.remove();
-											}
-										}
-									})]
-								}), TD({
-									c : UUI.FULL_TEXTAREA({
-										style : {
-											border : '1px solid #999',
-											borderRadius : 4,
-											height : 50
-										},
-										name : 'command',
-										value : command,
-										placeholder : '명령 구문'
-									})
-								})]
-							})
-						})
-					}));
-				};
-				
-				SkyDesktop.Confirm({
-					okButtonTitle : '저장',
-					style : {
-						onDisplayResize : (width, height) => {
-		
-							if (width > 600) {
-								return {
-									width : 500
-								};
-							} else {
-								return {
-									width : '90%'
-								};
-							}
-						}
-					},
-					msg : [H2({
-						style : {
-							fontWeight : 'bold'
-						},
-						c : '저장 시 명령 설정'
-					}), list = DIV({
-						style : {
-							marginTop : 8,
-							overflowY : 'scroll',
-							padding : 8,
-							backgroundColor : '#e0e1e2',
-							border : '1px solid #999',
-							borderRadius : 4,
-							textAlign : 'left',
-							onDisplayResize : (width, height) => {
-								
-								if (height > 500) {
-									return {
-										height : 300
-									};
-								} else {
-									return {
-										height : 150
-									};
-								}
-							}
-						}
-					}), SkyDesktop.Button({
-						style : {
-							marginTop : 8
-						},
-						icon : FontAwesome.GetIcon('plus'),
-						title : '추가',
-						on : {
-							tap : () => {
-								addForm();
-							}
-						}
-					})]
-				}, () => {
-					
-					saveCommandStore.clear();
-					
-					EACH(list.getChildren(), (child) => {
-						
-						let data = child.getData();
-						
-						if (VALID.notEmpty(data.extname) === true && VALID.notEmpty(data.command) === true) {
-							
-							saveCommandStore.save({
-								name : data.extname,
-								value : data.command
-							});
-						}
-					});
-				});
-				
-				EACH(saveCommandStore.all(), (command, extname) => {
-					addForm(extname, command);
-				});
-			}
-		}
-	}));
 	
 	RainyTool.IDE.addToolbarButton(SkyDesktop.ToolbarButton({
 		icon : IMG({

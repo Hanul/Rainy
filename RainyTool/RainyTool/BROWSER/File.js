@@ -6,11 +6,13 @@ RainyTool.File = CLASS({
 
 	init : (inner, self, params) => {
 		//REQUIRED: params
+		//REQUIRED: params.path
 		//REQUIRED: params.title
 		
+		let path = params.path;
 		let title = params.title;
 		
-		let extname = title.substring(title.lastIndexOf('.') + 1).toLowerCase();
+		let extname = path.substring(path.lastIndexOf('.') + 1).toLowerCase();
 		
 		let Editor = RainyTool.IDE.getEditor(extname);
 		

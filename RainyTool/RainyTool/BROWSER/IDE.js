@@ -108,126 +108,6 @@ RainyTool.IDE = OBJECT({
 								}
 							}
 						}
-					}), SkyDesktop.ToolbarButton({
-						icon : IMG({
-							src : RainyTool.R('icon/setting.png')
-						}),
-						title : '에디터 설정',
-						on : {
-							tap : () => {
-								
-								let list;
-								
-								SkyDesktop.Confirm({
-									okButtonTitle : '저장',
-									style : {
-										onDisplayResize : (width, height) => {
-						
-											if (width > 600) {
-												return {
-													width : 500
-												};
-											} else {
-												return {
-													width : '90%'
-												};
-											}
-										}
-									},
-									msg : [H2({
-										style : {
-											fontWeight : 'bold'
-										},
-										c : '에디터 설정'
-									}), list = DIV({
-										style : {
-											marginTop : 8,
-											overflowY : 'scroll',
-											padding : 8,
-											backgroundColor : '#e0e1e2',
-											border : '1px solid #999',
-											borderRadius : 4,
-											textAlign : 'left',
-											onDisplayResize : (width, height) => {
-							
-												if (height > 500) {
-													return {
-														height : 300
-													};
-												} else {
-													return {
-														height : 150
-													};
-												}
-											}
-										}
-									})]
-								}, () => {
-									
-								});
-								
-								EACH(editorMap, (editors, extname) => {
-									
-									let editorList = DIV({
-										style : {
-											padding : '5px 8px',
-											backgroundColor : '#fff',
-											border : '1px solid #999',
-											borderRadius : 4,
-											marginBottom : 10
-										},
-										c : H3({
-											style : {
-												marginBottom : 5
-											},
-											c : [SPAN({
-												style : {
-													fontWeight : 'bold'
-												},
-												c : extname
-											}), ' 파일 에디터 선택']
-										})
-									}).appendTo(list);
-									
-									EACH(editors, (editor, i) => {
-										
-										let input;
-										editorList.append(P({
-											c : [input = INPUT({
-												style : {
-													marginTop : 2,
-													flt : 'left'
-												},
-												type : 'radio',
-												name : extname,
-												value : (editorSettingStore.get(extname) === undefined && i === 0) || editorSettingStore.get(extname) === editor.getName(),
-												on : {
-													change : () => {
-														editorSettingStore.save({
-															name : extname,
-															value : editor.getName()
-														});
-													}
-												}
-											}), UUI.BUTTON_H({
-												style : {
-													marginLeft : 5,
-													flt : 'left'
-												},
-												icon : editor.getIcon(),
-												spacing : 5,
-												title : editor.getName(),
-												on : {
-													tap : () => {
-														input.toggleCheck();
-													}
-												}
-											}), CLEAR_BOTH()]
-										}));
-									});
-								});
-							}
-						}
 					})]
 				})
 			})
@@ -270,10 +150,10 @@ RainyTool.IDE = OBJECT({
 				let i = path.lastIndexOf('/');
 				let j = path.lastIndexOf('\\');
 				
-				let filename = path.substring((j === -1 || i > j ? i : j) + 1);
+				let fileName = path.substring((j === -1 || i > j ? i : j) + 1);
 				
-				let editor = openEditor(getEditor(filename.substring(filename.lastIndexOf('.') + 1).toLowerCase())({
-					title : filename,
+				let editor = openEditor(getEditor(fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase())({
+					title : fileName.lastIndexOf('.') === -1 ? fileName : fileName.substring(0, fileName.lastIndexOf('.')),
 					path : path,
 					content : content
 				}));
@@ -295,24 +175,7 @@ RainyTool.IDE = OBJECT({
 				c : SkyDesktop.HorizontalTabList({
 					tabs : [SkyDesktop.Tab({
 						size : 23,
-						c : SkyDesktop.TabGroup({
-							activeTabIndex : 0,
-							tabs : [SkyDesktop.Tab({
-								isCannotClose : true,
-								icon : IMG({
-									src : RainyTool.R('icon/workspace.png')
-								}),
-								title : '작업 폴더',
-								c : fileTree = SkyDesktop.FileTree(loadAndOpenEditor)
-							}), SkyDesktop.Tab({
-								isCannotClose : true,
-								icon : IMG({
-									src : RainyTool.R('icon/ftp.png')
-								}),
-								title : 'FTP',
-								c : 'test'
-							})]
-						})
+						c : fileTree = SkyDesktop.FileTree(loadAndOpenEditor)
 					}), SkyDesktop.Tab({
 						size : 77,
 						c : editorGroup = SkyDesktop.TabGroup()
