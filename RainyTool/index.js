@@ -14,7 +14,7 @@ RUN(() => {
 	
 	RainyTool.IDE.init({
 		
-		showHome : (ide) => {
+		showHome : () => {
 			
 			RainyTool.IDE.openEditor(RainyTool.HomeTab({
 				title : '홈',

@@ -78,7 +78,7 @@ RainyTool.IDE = OBJECT({
 						title : '홈',
 						on : {
 							tap : () => {
-								showHomeHandler(self);
+								showHomeHandler();
 							}
 						}
 					}), SkyDesktop.ToolbarButton({
@@ -229,7 +229,7 @@ RainyTool.IDE = OBJECT({
 			self.appendTo(BODY);
 			
 			if (editorOpenedInfos.length === 0) {
-				showHomeHandler(self);
+				showHomeHandler();
 			} else {
 				
 				NEXT(editorOpenedInfos, (editorOpenedInfo, next) => {
